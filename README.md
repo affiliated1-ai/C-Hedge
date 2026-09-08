@@ -56,8 +56,11 @@ pip install -U autohedge
 # Get a key at https://portal.jup.ag
 JUPITER_API_KEY=
 
-# OpenAI (experimental agents)
+# LLM provider
 OPENAI_API_KEY=
+# For Groq, use a Groq API key and a provider-prefixed model:
+GROQ_API_KEY=
+AUTOHEDGE_MODEL=groq/llama-3.3-70b-versatile
 ANTHROPIC_API_KEY=
 WORKSPACE_DIR="agent_workspace"
 
@@ -69,8 +72,18 @@ See `.env.example` for a full reference.
 
 ### Basic Usage
 
+Create a `.env` file in the project root and add your Groq key from
+https://console.groq.com/keys:
+
+```bash
+GROQ_API_KEY=gsk_your_key_here
+AUTOHEDGE_MODEL=groq/llama-3.3-70b-versatile
+```
+
+Keep `.env` private and do not commit the key. Then start the interactive CLI:
+
 ```python
-autohedge 
+autohedge
 ```
 
 ---

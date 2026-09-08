@@ -28,5 +28,7 @@ def load_env() -> None:
 
 
 def require_openai_key() -> bool:
-    """Return True if OPENAI_API_KEY is set (required for swarms gpt-4.x)."""
-    return bool(os.getenv("OPENAI_API_KEY"))
+    """Return True if a supported LLM provider key is set."""
+    return bool(
+        os.getenv("OPENAI_API_KEY") or os.getenv("GROQ_API_KEY")
+    )

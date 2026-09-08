@@ -4,6 +4,7 @@ generation, risk assessment, execution, and quantitative analysis.
 """
 
 from datetime import datetime
+import os
 
 from swarms import Agent
 
@@ -22,11 +23,12 @@ _DATE_TIME_LINE = _NOW.strftime("%A, %B %d, %Y at %H:%M")
 if _NOW.tzinfo:
     _DATE_TIME_LINE += f" {_NOW.tzname() or ''}"
 _SYSTEM_SUFFIX = f"\n\nCurrent date and time (use this as now): {_DATE_TIME_LINE.strip()}"
+_MODEL_NAME = os.getenv("AUTOHEDGE_MODEL", "gpt-4.1")
 
 sentiment_agent = Agent(
     agent_name="Sentiment-Agent",
     system_prompt=SENTIMENT_PROMPT + _SYSTEM_SUFFIX,
-    model_name="gpt-4o-mini",
+    model_name=_MODEL_NAME,
     verbose=True,
     max_loops=1,
     tools=[exa_search],
@@ -37,7 +39,7 @@ risk_agent = Agent(
     system_prompt=RISK_PROMPT.strip()
     + "\n\nWhen you receive a message, it will contain:\nStock, Thesis, Quant Analysis.\n\nProvide risk assessment including:\n1. Recommended position size\n2. Maximum drawdown risk\n3. Market risk exposure\n4. Overall risk score"
     + _SYSTEM_SUFFIX,
-    model_name="gpt-4.1",
+    model_name=_MODEL_NAME,
     output_type="str",
     max_loops=1,
     verbose=True,
@@ -49,7 +51,7 @@ execution_agent = Agent(
     system_prompt=EXECUTION_PROMPT.strip()
     + "\n\nWhen you receive a message, it will contain:\nStock, Thesis, Risk Assessment.\n\nGenerate trade order including:\n1. Order type (market/limit)\n2. Quantity\n3. Entry price\n4. Stop loss\n5. Take profit\n6. Time in force"
     + _SYSTEM_SUFFIX,
-    model_name="gpt-4.1",
+    model_name=_MODEL_NAME,
     output_type="str",
     max_loops=1,
     verbose=True,
@@ -61,7 +63,7 @@ quant_agent = Agent(
     system_prompt=QUANT_PROMPT.strip()
     + "\n\nWhen you receive a message, it will contain:\nStock and Thesis from your Director.\n\nGenerate quantitative analysis with: ticker, technical_score (0-1), volume_score (0-1), trend_strength (0-1), volatility, probability_score (0-1), key_levels (support, resistance, pivot)."
     + _SYSTEM_SUFFIX,
-    model_name="gpt-4.1",
+    model_name=_MODEL_NAME,
     output_type="str",
     max_loops=1,
     verbose=True,
@@ -80,7 +82,7 @@ ALL_AGENTS = [
 director_agent = Agent(
     agent_name="Trading-Director",
     system_prompt=DIRECTOR_PROMPT + _SYSTEM_SUFFIX,
-    model_name="gpt-4.1",
+    model_name=_MODEL_NAME,
     max_loops=1,
     handoffs=ALL_AGENTS,
 )

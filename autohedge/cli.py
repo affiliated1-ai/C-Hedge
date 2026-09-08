@@ -17,7 +17,7 @@ from autohedge.env_loader import load_env, require_openai_key
 load_env()
 if not require_openai_key():
     Console().print(
-        "[yellow]Warning: OPENAI_API_KEY not set. Set it in .env or export it.[/]"
+        "[yellow]Warning: no LLM API key set. Add OPENAI_API_KEY or GROQ_API_KEY to .env or export it.[/]"
     )
 
 try:
