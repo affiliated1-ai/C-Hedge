@@ -23,7 +23,20 @@ _DATE_TIME_LINE = _NOW.strftime("%A, %B %d, %Y at %H:%M")
 if _NOW.tzinfo:
     _DATE_TIME_LINE += f" {_NOW.tzname() or ''}"
 _SYSTEM_SUFFIX = f"\n\nCurrent date and time (use this as now): {_DATE_TIME_LINE.strip()}"
-_MODEL_NAME = os.getenv("AUTOHEDGE_MODEL", "gpt-4.1")
+_RAW_MODEL_NAME = os.getenv(
+    "MODEL_NAME", os.getenv("AUTOHEDGE_MODEL", "gpt-4.1")
+)
+_LLM_BASE_URL = os.getenv("OPENAI_API_BASE")
+_LLM_API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("GROQ_API_KEY")
+_MODEL_NAME = (
+    f"openai/{_RAW_MODEL_NAME}"
+    if _LLM_BASE_URL and "/" not in _RAW_MODEL_NAME
+    else _RAW_MODEL_NAME
+)
+_LLM_CONFIG = {
+    "llm_base_url": _LLM_BASE_URL,
+    "llm_api_key": _LLM_API_KEY,
+}
 
 sentiment_agent = Agent(
     agent_name="Sentiment-Agent",
@@ -32,6 +45,7 @@ sentiment_agent = Agent(
     verbose=True,
     max_loops=1,
     tools=[exa_search],
+    **_LLM_CONFIG,
 )
 
 risk_agent = Agent(
@@ -44,6 +58,7 @@ risk_agent = Agent(
     max_loops=1,
     verbose=True,
     context_length=16000,
+    **_LLM_CONFIG,
 )
 
 execution_agent = Agent(
@@ -56,6 +71,7 @@ execution_agent = Agent(
     max_loops=1,
     verbose=True,
     context_length=16000,
+    **_LLM_CONFIG,
 )
 
 quant_agent = Agent(
@@ -68,6 +84,7 @@ quant_agent = Agent(
     max_loops=1,
     verbose=True,
     context_length=16000,
+    **_LLM_CONFIG,
 )
 
 
@@ -85,6 +102,7 @@ director_agent = Agent(
     model_name=_MODEL_NAME,
     max_loops=1,
     handoffs=ALL_AGENTS,
+    **_LLM_CONFIG,
 )
 
 
