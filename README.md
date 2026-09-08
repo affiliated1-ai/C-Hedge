@@ -60,7 +60,7 @@ JUPITER_API_KEY=
 OPENAI_API_KEY=
 # For Groq, use a Groq API key and a provider-prefixed model:
 GROQ_API_KEY=
-AUTOHEDGE_MODEL=groq/llama-3.3-70b-versatile
+AUTOHEDGE_MODEL=groq/llama-3.1-8b-instant
 ANTHROPIC_API_KEY=
 WORKSPACE_DIR="agent_workspace"
 
@@ -77,7 +77,7 @@ https://console.groq.com/keys:
 
 ```bash
 GROQ_API_KEY=gsk_your_key_here
-AUTOHEDGE_MODEL=groq/llama-3.3-70b-versatile
+AUTOHEDGE_MODEL=groq/llama-3.1-8b-instant
 ```
 
 Keep `.env` private and do not commit the key. Then start the interactive CLI:
