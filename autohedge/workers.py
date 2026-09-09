@@ -24,7 +24,8 @@ if _NOW.tzinfo:
     _DATE_TIME_LINE += f" {_NOW.tzname() or ''}"
 _SYSTEM_SUFFIX = f"\n\nCurrent date and time (use this as now): {_DATE_TIME_LINE.strip()}"
 _RAW_MODEL_NAME = os.getenv(
-    "MODEL_NAME", os.getenv("AUTOHEDGE_MODEL", "gpt-4.1")
+    "MODEL_NAME",
+    os.getenv("AUTOHEDGE_MODEL", "llama-3.3-70b-versatile"),
 )
 _LLM_BASE_URL = os.getenv("OPENAI_API_BASE")
 _LLM_API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("GROQ_API_KEY")
